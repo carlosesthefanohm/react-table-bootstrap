@@ -1,6 +1,6 @@
 {
-  "short_name": "react-datatable-bootstrap",
-  "name": "react-datatable-bootstrap",
+  "short_name": "react-table-bootstrap",
+  "name": "react-table-bootstrap",
   "icons": [
     {
       "src": "favicon.ico",
