@@ -27,84 +27,84 @@ table thead tr td,
 th {
   color: black; }
 
-.dt-react.table thead tr th.sort {
+._3kAh5._1NO8Y thead tr th._1spri {
   position: relative;
   cursor: pointer; }
 
-.dt-react.table.table-font-size tr th {
+._3kAh5._1NO8Y._Mb0s7 tr th {
   font-size: 8px; }
 
-.dt.table-scroll thead {
+._wwujc._2SgT- thead {
   display: block; }
 
-.dt.table-scroll tbody {
+._wwujc._2SgT- tbody {
   height: 400px;
   overflow-y: scroll;
   display: block; }
 
-.dt-react.table thead tr th.icon:after {
+._3kAh5._1NO8Y thead tr th._3r428:after {
   right: 1em;
   content: "\2191";
   position: absolute;
   opacity: 0.3; }
 
-.dt-react.table thead tr th.active-desc:after {
+._3kAh5._1NO8Y thead tr th._19FE0:after {
   opacity: 1 !important; }
 
-.dt-react.table thead tr th.icon:before {
+._3kAh5._1NO8Y thead tr th._3r428:before {
   position: absolute;
   opacity: 0.3;
   right: 0.5em;
   content: "\2193"; }
 
-.dt-react.table thead tr th.active-asc:before {
+._3kAh5._1NO8Y thead tr th._FHh9J:before {
   opacity: 1 !important; }
 
-.pagination-react {
+._1lQLD {
   list-style: none;
   display: flex;
   padding: 0;
   margin-top: 5px; }
 
-.pagination-react li {
+._1lQLD li {
   padding: 5px;
   cursor: pointer; }
 
-.pagination-react li:hover {
+._1lQLD li:hover {
   padding: 5px;
   cursor: pointer; }
 
-.pagination-react li.selected a {
+._1lQLD li._2aac_ a {
   background-color: #007BFF;
   color: #fff; }
 
-.pagination-react li a:hover {
+._1lQLD li a:hover {
   background-color: #007BFF;
   color: #fff; }
 
-.pagination-react li.disabled a {
+._1lQLD li._2BCbz a {
   cursor: not-allowed;
   background-color: #fff;
   color: inherit;
   opacity: 0.5; }
 
-.pagination-react li.disabled:hover a {
+._1lQLD li._2BCbz:hover a {
   cursor: not-allowed; }
 
-.pagination-react li a {
+._1lQLD li a {
   padding: 10px;
   border-radius: 5px;
   outline: none;
   text-decoration: none; }
 
-.table-bordered th,
-.table-bordered td {
+._2Sv84 th,
+._2Sv84 td {
   border: 0px solid #dee2e6; }
 
-.table-striped tbody tr:nth-of-type(odd) {
+._9p2YR tbody tr:nth-of-type(odd) {
   background-color: #eaf0f7; }
 
-.table-striped tbody tr:nth-of-type(even) {
+._9p2YR tbody tr:nth-of-type(even) {
   background-color: #fff; }
 
 /* } */

@@ -1,6 +1,5 @@
 import React, { useEffect, useCallback, useReducer, useMemo, Fragment } from 'react'
 import ReactPaginate from 'react-paginate'
-import PropTypes from 'prop-types'
 import './index.scss'
 
 const ReactTableBootstrap = ({
@@ -336,18 +335,6 @@ ReactTableBootstrap.defaultProps = {
   textFilter: '',
   tableScroll: false,
   filterColumns: []
-}
-
-ReactTableBootstrap.propTypes = {
-  rows: PropTypes.array,
-  head: PropTypes.array.isRequired,
-  isProcessing: PropTypes.bool,
-  columnOrder: PropTypes.string,
-  orderDirection: PropTypes.oneOf(['asc', 'desc']),
-  pageLength: PropTypes.oneOf([10, 25, 50, 100, -1]),
-  textFilter: PropTypes.string,
-  tableScroll: PropTypes.bool,
-  filterColumns: PropTypes.array
 }
 
 export default ReactTableBootstrap

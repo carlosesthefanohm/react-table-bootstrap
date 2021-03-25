@@ -1,6 +1,6 @@
 {
   "name": "react-table-bootstrap",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Datatable desarrolado con bootstrap y react",
   "author": "carlosesthefanohm",
   "license": "MIT",
@@ -57,7 +57,6 @@
     "dist"
   ],
   "dependencies": {
-    "prop-types": "^15.7.2",
     "react-paginate": "^7.1.2"
   }
 }
