@@ -109,7 +109,7 @@ var ReactTableBootstrap = function ReactTableBootstrap(_ref) {
     if (head.length) {
       if (head[head.length - 1].length) {
         head[head.length - 1].forEach(function (r) {
-          if (r.align || r.render) {
+          if (r.align || r.render || r.name) {
             headParams[r.name] = {};
 
             if (r.align) {
@@ -126,6 +126,19 @@ var ReactTableBootstrap = function ReactTableBootstrap(_ref) {
           head[head.length - 1].forEach(function (h) {
             row[h.name] = r[h.name];
           });
+
+          var _loop = function _loop(key) {
+            if (!head[head.length - 1].some(function (h) {
+              return h.name === key;
+            })) {
+              row[key] = r[key];
+            }
+          };
+
+          for (var key in r) {
+            _loop(key);
+          }
+
           arrRowsRender.push(row);
         });
       }
@@ -135,7 +148,9 @@ var ReactTableBootstrap = function ReactTableBootstrap(_ref) {
       var has = false;
 
       for (var key in r) {
-        if (r[key].toString().toUpperCase().includes(store.textFilter.toUpperCase())) {
+        var _r$key, _r$key$toString, _r$key$toString$toUpp;
+
+        if ((_r$key = r[key]) !== null && _r$key !== void 0 && (_r$key$toString = _r$key.toString()) !== null && _r$key$toString !== void 0 && (_r$key$toString$toUpp = _r$key$toString.toUpperCase()) !== null && _r$key$toString$toUpp !== void 0 && _r$key$toString$toUpp.includes(store.textFilter.toUpperCase())) {
           has = true;
           break;
         }
@@ -145,23 +160,25 @@ var ReactTableBootstrap = function ReactTableBootstrap(_ref) {
     }).filter(function (r) {
       var countFind = 0;
 
-      var _loop = function _loop(key) {
+      var _loop2 = function _loop2(key) {
         if (store.filterColumns.some(function (f) {
           return f.name === key;
         })) {
+          var _r$key2, _r$key2$toString, _r$key2$toString$toUp;
+
           var fc = store.filterColumns.find(function (f) {
             return f.name === key;
           });
           fc.textFilter = fc.textFilter || '';
 
-          if (r[key].toString().toUpperCase().includes(fc.textFilter.toString().toUpperCase())) {
+          if ((_r$key2 = r[key]) !== null && _r$key2 !== void 0 && (_r$key2$toString = _r$key2.toString()) !== null && _r$key2$toString !== void 0 && (_r$key2$toString$toUp = _r$key2$toString.toUpperCase()) !== null && _r$key2$toString$toUp !== void 0 && _r$key2$toString$toUp.includes(fc.textFilter.toString().toUpperCase())) {
             countFind++;
           }
         }
       };
 
       for (var key in r) {
-        _loop(key);
+        _loop2(key);
       }
 
       return countFind === store.filterColumns.length ? r : null;
@@ -178,30 +195,32 @@ var ReactTableBootstrap = function ReactTableBootstrap(_ref) {
     }).map(function (rr) {
       var row = [];
 
-      var _loop2 = function _loop2(key) {
-        var _headParams$key, _headParams$key2;
+      var _loop3 = function _loop3(key) {
+        if (headParams.hasOwnProperty(key)) {
+          var _headParams$key, _headParams$key2;
 
-        var td = {};
+          var td = {};
 
-        if ((_headParams$key = headParams[key]) !== null && _headParams$key !== void 0 && _headParams$key.align) {
-          td.align = headParams[key].align;
+          if ((_headParams$key = headParams[key]) !== null && _headParams$key !== void 0 && _headParams$key.align) {
+            td.align = headParams[key].align;
+          }
+
+          var fnRender = function fnRender() {
+            return rr[key];
+          };
+
+          if ((_headParams$key2 = headParams[key]) !== null && _headParams$key2 !== void 0 && _headParams$key2.render) {
+            var _headParams$key3;
+
+            fnRender = (_headParams$key3 = headParams[key]) === null || _headParams$key3 === void 0 ? void 0 : _headParams$key3.render;
+          }
+
+          row.push( /*#__PURE__*/React__default.createElement("td", td, fnRender(rr)));
         }
-
-        var fnRender = function fnRender() {
-          return rr[key];
-        };
-
-        if ((_headParams$key2 = headParams[key]) !== null && _headParams$key2 !== void 0 && _headParams$key2.render) {
-          var _headParams$key3;
-
-          fnRender = (_headParams$key3 = headParams[key]) === null || _headParams$key3 === void 0 ? void 0 : _headParams$key3.render;
-        }
-
-        row.push( /*#__PURE__*/React__default.createElement("td", td, fnRender(rr)));
       };
 
       for (var key in rr) {
-        _loop2(key);
+        _loop3(key);
       }
 
       return /*#__PURE__*/React__default.createElement("tr", null, React__default.Children.toArray(row));

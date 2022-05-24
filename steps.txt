@@ -4,8 +4,8 @@ para node 12
 npx rollup -c
 
 -- core
-npm install node-sass@4.14.1 @rollup/plugin-babel @rollup/plugin-commonjs rollup-plugin-peer-deps-external --dev
+npm install node-sass@4.14.1 @rollup/plugin-babel @rollup/plugin-commonjs rollup-plugin-peer-deps-external rollup-plugin-copy rollup-plugin-scss --dev
 -- example
-npm install bootstrap
+npm install bootstrap node-sass@4.14.1
 
 copy rollup.config.js

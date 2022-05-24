@@ -35,7 +35,7 @@ const ReactTableBootstrap = ({
     if (head.length) {
       if (head[head.length - 1].length) {
         head[head.length - 1].forEach(r => {
-          if (r.align || r.render) {
+          if (r.align || r.render || r.name) {
             headParams[r.name] = {}
             if (r.align) {
               headParams[r.name].align = r.align
@@ -50,6 +50,11 @@ const ReactTableBootstrap = ({
           head[head.length - 1].forEach(h => {
             row[h.name] = r[h.name]
           })
+          for (const key in r) {
+            if (!head[head.length - 1].some(h => h.name === key)) {
+              row[key] = r[key]
+            }
+          }
           arrRowsRender.push(row)
         })
       }
@@ -58,7 +63,7 @@ const ReactTableBootstrap = ({
     return arrRowsRender.filter(r => {
       let has = false
       for (const key in r) {
-        if (r[key].toString().toUpperCase().includes(store.textFilter.toUpperCase())) {
+        if (r[key]?.toString()?.toUpperCase()?.includes(store.textFilter.toUpperCase())) {
           has = true
           break
         }
@@ -70,7 +75,7 @@ const ReactTableBootstrap = ({
         if (store.filterColumns.some(f => f.name === key)) {
           let fc = store.filterColumns.find(f => f.name === key)
           fc.textFilter = fc.textFilter || ''
-          if (r[key].toString().toUpperCase().includes(fc.textFilter.toString().toUpperCase())) {
+          if (r[key]?.toString()?.toUpperCase()?.includes(fc.textFilter.toString().toUpperCase())) {
             countFind++
           }
         }
@@ -94,16 +99,18 @@ const ReactTableBootstrap = ({
     }).map(rr => {
       let row = []
       for (const key in rr) {
-        let td = {}
-        if (headParams[key]?.align) {
-          td.align = headParams[key].align
+        if (headParams.hasOwnProperty(key)) {
+          let td = {}
+          if (headParams[key]?.align) {
+            td.align = headParams[key].align
+          }
+          let fnRender = () => rr[key]
+          if (headParams[key]?.render) {
+            fnRender = headParams[key]?.render
+          }
+          
+          row.push(<td {...td}>{fnRender(rr)}</td>)
         }
-        let fnRender = () => rr[key]
-        if (headParams[key]?.render) {
-          fnRender = headParams[key]?.render
-        }
-        
-        row.push(<td {...td}>{fnRender(rr)}</td>)
       }
       return <tr>{React.Children.toArray(row)}</tr>
     })

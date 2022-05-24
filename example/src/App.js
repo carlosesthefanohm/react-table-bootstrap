@@ -11,7 +11,7 @@ const App = () => {
   useEffect(() => {
     let b = []
     let idx = 0
-    for (let i = 0; i < 50; i++) {
+    for (let i = 0; i < 1; i++) {
       let d = []
       for (let j = 0; j < 1; j++) {
         d.push({
@@ -19,7 +19,9 @@ const App = () => {
           name: 'Carlos' + idx,
           balance: 10 * (idx + 1),
           enabled: i % 2 === 0 ? 1 : 0,
-          checked: 0
+          checked: 0,
+          uno: 1,
+          dos: 2
         })
         idx++
       }
@@ -32,11 +34,7 @@ const App = () => {
   return <div className="container mt-4">
     <ReactTableBootstrap
       head={[
-        [
-          { text: 'Empleado', colSpan: 2, sort: false },
-          { text: 'Contabilidad', sort: false },
-          { text: 'Acciones', colSpan: 2, sort: false },
-        ],
+
         [
           { name: 'id', text: 'ID', align: 'center' },
           { name: 'name', text: 'Nombres' },
@@ -48,12 +46,20 @@ const App = () => {
           },
           {
             name: 'checked', text: 'Seleccionado', align: 'center',
-            render: r => ''
+            render: r => 'Seleccionado'
+          },
+          {
+            name: 'actions', text: 'Acciones', align: 'center',
+            render: r => {
+              return <>
+                <button>a</button>
+              </>
+            }
           }
         ],
       ]}
       isProcessing={isProcessing}
-      filterColumns={[{ name: 'id' }, { name: 'name' }]}
+      /* filterColumns={[{ name: 'id_customers' }, { name: 'name' }]} */
       rows={body}
     />
   </div>
