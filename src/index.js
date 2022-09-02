@@ -1,9 +1,9 @@
-import React, { useEffect, useCallback, useReducer, useMemo, Fragment } from 'react'
+import React, { useEffect, useCallback, useReducer, useMemo } from 'react'
 import ReactPaginate from 'react-paginate'
-import './index.scss'
+import PropTypes from 'prop-types'
 
-const ReactTableBootstrap = ({
-  pageLength, orderDirection, rows, isProcessing, columnOrder, head, textFilter, tableScroll, filterColumns
+const ReactDataTableBootstrap = ({
+  pageLength, orderDirection, rows, isProcessing, columnOrder, head, textFilter, tableScroll, filterColumns, noSort
 }) => {
   //
   // ─── ESTADOS CON REDUCER ────────────────────────────────────────────────────────
@@ -30,40 +30,32 @@ const ReactTableBootstrap = ({
       }
     }
 
-    let arrRowsRender = []
     let headParams = {}
     if (head.length) {
       if (head[head.length - 1].length) {
         head[head.length - 1].forEach(r => {
-          if (r.align || r.render || r.name) {
-            headParams[r.name] = {}
-            if (r.align) {
-              headParams[r.name].align = r.align
-            }
-            if (r.render) {
-              headParams[r.name].render = r.render
-            }
+          headParams[r.name] = { }
+          if (r.align) {
+            headParams[r.name].align = r.align
           }
-        })
-        rows.forEach(r => {
-          let row = {}
-          head[head.length - 1].forEach(h => {
-            row[h.name] = r[h.name]
-          })
-          for (const key in r) {
-            if (!head[head.length - 1].some(h => h.name === key)) {
-              row[key] = r[key]
-            }
+          if (r.render) {
+            headParams[r.name].render = r.render
           }
-          arrRowsRender.push(row)
+          if (r.text) {
+            headParams[r.name].text = r.text
+          }
+          if (r.classBodyTr) {
+            headParams[r.name].classBodyTr = r.classBodyTr
+          }
         })
       }
     }
-
-    return arrRowsRender.filter(r => {
+    
+    let arrRowsRender = []
+    rows.filter(r => {
       let has = false
       for (const key in r) {
-        if (r[key]?.toString()?.toUpperCase()?.includes(store.textFilter.toUpperCase())) {
+        if (r[key]?.toString().toUpperCase().includes(store.textFilter.toUpperCase())) {
           has = true
           break
         }
@@ -75,14 +67,17 @@ const ReactTableBootstrap = ({
         if (store.filterColumns.some(f => f.name === key)) {
           let fc = store.filterColumns.find(f => f.name === key)
           fc.textFilter = fc.textFilter || ''
-          if (r[key]?.toString()?.toUpperCase()?.includes(fc.textFilter.toString().toUpperCase())) {
+          if (r[key].toString().toUpperCase().includes(fc.textFilter.toString().toUpperCase())) {
             countFind++
           }
         }
       }
       return countFind === store.filterColumns.length ? r : null
     }).sort((a, b) => {
-        if (store.columnOrder) {
+      if (noSort) {
+        return 1
+      }
+      if (store.columnOrder) {
         if (store.orderDirection === 'asc') {
           if (a[store.columnOrder] >= b[store.columnOrder])
             return 1
@@ -96,24 +91,31 @@ const ReactTableBootstrap = ({
         }
       }
       return 1
-    }).map(rr => {
+    }).forEach(rr => {
       let row = []
-      for (const key in rr) {
-        if (headParams.hasOwnProperty(key)) {
-          let td = {}
-          if (headParams[key]?.align) {
-            td.align = headParams[key].align
-          }
-          let fnRender = () => rr[key]
-          if (headParams[key]?.render) {
-            fnRender = headParams[key]?.render
-          }
-          
-          row.push(<td {...td}>{fnRender(rr)}</td>)
+      let tr = {}
+
+      for (const h in headParams) {
+        let td = {}
+        if (headParams[h].align) {
+          td.align = headParams[h].align
         }
+
+        if (headParams[h]?.classBodyTr) {
+          tr.className = headParams[h].classBodyTr(rr)
+        }
+
+        let fnRender = () => rr[h]
+        if (headParams[h].render) {
+          fnRender = headParams[h].render
+        }
+
+        row.push(<td {...td}>{fnRender(rr)}</td>)
       }
-      return <tr>{React.Children.toArray(row)}</tr>
+      arrRowsRender.push(<tr {...tr}>{React.Children.toArray(row)}</tr>)
     })
+
+    return arrRowsRender
   }, [rows, head, store.columnOrder, store.orderDirection, store.textFilter, store.filterColumns])
 
   //
@@ -172,7 +174,7 @@ const ReactTableBootstrap = ({
   const getHeader = useMemo(() => {
     return <thead>
       {React.Children.toArray(head.map((tr, j) => {
-        return <Fragment>
+        return <>
           <tr>
             {React.Children.toArray(tr.map(h => {
               h.sort = h.sort !== false
@@ -206,7 +208,7 @@ const ReactTableBootstrap = ({
               }
             }))}
           </tr> : <tr></tr>}
-        </Fragment>
+        </>
       }))}
     </thead>
   }, [head, store.columnOrder, store.orderDirection, changeOrder, store.filterColumns, changeFilterColumn, changeFilterColumnByScape])
@@ -230,14 +232,14 @@ const ReactTableBootstrap = ({
 
   // Mostrar leyenda de cantidad de resultados
   const getLegend = useMemo(() => {
-    return (<Fragment>
+    return (<>
       Mostrando {!store.rowsRender.length ? 0 : ((store.numberPage - 1) * store.pageLength) + 1} a {
         store.rowsRender.slice(store.numberPage === 1 ? 0 : (store.numberPage - 1) * store.pageLength, store.pageLength * store.numberPage).length - store.pageLength === 0 ?
           store.pageLength * store.numberPage : 
           store.rowsRender.slice(0, store.pageLength * store.numberPage).length
       } de {store.rowsRenderFull.length !== store.rowsRender.length ? store.rowsRender.length + ' filtrados de '  : ''}
       {!isProcessing ? rows.length : 0} registros
-    </Fragment>)
+    </>)
   }, [store.rowsRender, store.numberPage, store.pageLength, store.rowsRenderFull, rows, isProcessing])
 
   // Cambiar número de página
@@ -300,7 +302,7 @@ const ReactTableBootstrap = ({
   const filterBy = e => dispatch({ type: 'CHANGE_TEXT_FILTER', textFilter: e.keyCode === 27 ? '' : e.target.value })
   const fileyByScape = e => dispatch({ type: 'CHANGE_TEXT_FILTER', textFilter: e.target.value })
 
-  return (<Fragment>
+  return (<>
     <div className="d-flex flex-column flex-md-row justify-content-between mb-2">
       <div className="d-flex justify-content-center">
         <div className="d-flex">
@@ -329,10 +331,10 @@ const ReactTableBootstrap = ({
       </div>
       {getPaginate}
     </div>
-  </Fragment>)
+  </>)
 }
 
-ReactTableBootstrap.defaultProps = {
+ReactDataTableBootstrap.defaultProps = {
   rows: [],
   head: [],
   isProcessing: false,
@@ -341,7 +343,20 @@ ReactTableBootstrap.defaultProps = {
   pageLength: 10,
   textFilter: '',
   tableScroll: false,
-  filterColumns: []
+  filterColumns: [],
+  noSort: false
 }
 
-export default ReactTableBootstrap
+ReactDataTableBootstrap.propTypes = {
+  rows: PropTypes.array,
+  head: PropTypes.array.isRequired,
+  isProcessing: PropTypes.bool,
+  columnOrder: PropTypes.string,
+  orderDirection: PropTypes.oneOf(['asc', 'desc']),
+  pageLength: PropTypes.oneOf([10, 25, 50, 100, -1]),
+  textFilter: PropTypes.string,
+  tableScroll: PropTypes.bool,
+  filterColumns: PropTypes.array
+}
+
+export default ReactDataTableBootstrap
