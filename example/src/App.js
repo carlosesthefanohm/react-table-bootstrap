@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from 'react'
 import ReactTableBootstrap from 'react-table-bootstrap'
-/* import 'bootstrap/dist/css/bootstrap.min.css';
-import 'react-table-bootstrap/dist/index.css' */
 import './index.scss'
 
 const App = () => {
@@ -10,22 +8,17 @@ const App = () => {
 
   useEffect(() => {
     let b = []
-    let idx = 0
-    for (let i = 0; i < 1; i++) {
-      let d = []
-      for (let j = 0; j < 1; j++) {
-        d.push({
-          id: idx,
-          name: 'Carlos' + idx,
-          balance: 10 * (idx + 1),
-          enabled: i % 2 === 0 ? 1 : 0,
-          checked: 0,
-          uno: 1,
-          dos: 2
-        })
-        idx++
-      }
-      b = [...b, ...d]
+    for (let j = 1; j < 100; j++) {
+      b.push({
+        id: j,
+        name: 'Carlos' + j,
+        balance: 10 * (j + 1),
+        enabled: j % 2 === 0 ? 1 : 0,
+        checked: 0,
+        uno: 1,
+        dos: 2,
+        enabled_text: j % 2 === 0 ? 'ACTIVO' : 'INACTIVO'
+      })
     }
     setBody(b)
     setIsProcessing(false)
@@ -45,21 +38,19 @@ const App = () => {
             </strong>
           },
           {
-            name: 'checked', text: 'Seleccionado', align: 'center',
-            render: r => 'Seleccionado'
-          },
-          {
             name: 'actions', text: 'Acciones', align: 'center',
-            render: r => {
+            render: () => {
               return <>
-                <button>a</button>
+                <button className='btn btn-primary btn-sm'>
+                  Edit
+                </button>
               </>
             }
           }
         ],
       ]}
       isProcessing={isProcessing}
-      /* filterColumns={[{ name: 'id_customers' }, { name: 'name' }]} */
+      filterColumns={[{ name: 'id' }, { name: 'name' }]}
       rows={body}
     />
   </div>

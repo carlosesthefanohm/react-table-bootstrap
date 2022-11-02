@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback, useReducer, useMemo } from 'react'
+import React, { useEffect, useCallback, useReducer, useMemo, Fragment } from 'react'
 import ReactPaginate from 'react-paginate'
 import PropTypes from 'prop-types'
 
@@ -174,7 +174,7 @@ const ReactDataTableBootstrap = ({
   const getHeader = useMemo(() => {
     return <thead>
       {React.Children.toArray(head.map((tr, j) => {
-        return <>
+        return <Fragment>
           <tr>
             {React.Children.toArray(tr.map(h => {
               h.sort = h.sort !== false
@@ -207,8 +207,8 @@ const ReactDataTableBootstrap = ({
                 return <th></th>
               }
             }))}
-          </tr> : <tr></tr>}
-        </>
+          </tr> : <Fragment></Fragment>}
+        </Fragment>
       }))}
     </thead>
   }, [head, store.columnOrder, store.orderDirection, changeOrder, store.filterColumns, changeFilterColumn, changeFilterColumnByScape])
@@ -232,14 +232,14 @@ const ReactDataTableBootstrap = ({
 
   // Mostrar leyenda de cantidad de resultados
   const getLegend = useMemo(() => {
-    return (<>
+    return (<Fragment>
       Mostrando {!store.rowsRender.length ? 0 : ((store.numberPage - 1) * store.pageLength) + 1} a {
         store.rowsRender.slice(store.numberPage === 1 ? 0 : (store.numberPage - 1) * store.pageLength, store.pageLength * store.numberPage).length - store.pageLength === 0 ?
           store.pageLength * store.numberPage : 
           store.rowsRender.slice(0, store.pageLength * store.numberPage).length
       } de {store.rowsRenderFull.length !== store.rowsRender.length ? store.rowsRender.length + ' filtrados de '  : ''}
       {!isProcessing ? rows.length : 0} registros
-    </>)
+    </Fragment>)
   }, [store.rowsRender, store.numberPage, store.pageLength, store.rowsRenderFull, rows, isProcessing])
 
   // Cambiar número de página
@@ -254,8 +254,8 @@ const ReactDataTableBootstrap = ({
     return (<ReactPaginate
       pageRangeDisplayed={2}
       marginPagesDisplayed={1}
-      previousLabel={'Anterior'}
-      nextLabel={'Siguiente'}
+      previousLabel={<i class="fas fa-angle-left"></i>}
+      nextLabel={<i class="fas fa-angle-right"></i>}
       breakLabel={'...'}
       pageCount={calculate}
       onPageChange={changeNumberPage}
@@ -302,7 +302,7 @@ const ReactDataTableBootstrap = ({
   const filterBy = e => dispatch({ type: 'CHANGE_TEXT_FILTER', textFilter: e.keyCode === 27 ? '' : e.target.value })
   const fileyByScape = e => dispatch({ type: 'CHANGE_TEXT_FILTER', textFilter: e.target.value })
 
-  return (<>
+  return (<Fragment>
     <div className="d-flex flex-column flex-md-row justify-content-between mb-2">
       <div className="d-flex justify-content-center">
         <div className="d-flex">
@@ -331,7 +331,7 @@ const ReactDataTableBootstrap = ({
       </div>
       {getPaginate}
     </div>
-  </>)
+  </Fragment>)
 }
 
 ReactDataTableBootstrap.defaultProps = {
