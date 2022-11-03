@@ -80,7 +80,7 @@ export default App
 ```
 
 ## Versions
-Node - 16.15.0
+Node - 12.22.12
 
 ## License
 
