@@ -1445,10 +1445,10 @@ var ReactDataTableBootstrap = function ReactDataTableBootstrap(_ref) {
       pageRangeDisplayed: 2,
       marginPagesDisplayed: 1,
       previousLabel: /*#__PURE__*/React__default.createElement("i", {
-        "class": "fas fa-angle-left"
+        className: "fas fa-angle-left"
       }),
       nextLabel: /*#__PURE__*/React__default.createElement("i", {
-        "class": "fas fa-angle-right"
+        className: "fas fa-angle-right"
       }),
       breakLabel: '...',
       pageCount: calculate,

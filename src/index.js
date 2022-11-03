@@ -254,8 +254,8 @@ const ReactDataTableBootstrap = ({
     return (<ReactPaginate
       pageRangeDisplayed={2}
       marginPagesDisplayed={1}
-      previousLabel={<i class="fas fa-angle-left"></i>}
-      nextLabel={<i class="fas fa-angle-right"></i>}
+      previousLabel={<i className="fas fa-angle-left"></i>}
+      nextLabel={<i className="fas fa-angle-right"></i>}
       breakLabel={'...'}
       pageCount={calculate}
       onPageChange={changeNumberPage}

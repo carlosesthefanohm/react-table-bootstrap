@@ -79,6 +79,9 @@ export default App
 @import 'react-table-bootstrap/dist/index.scss'
 ```
 
+## Versions
+Node - 16.15.0
+
 ## License
 
 MIT © [carlosesthefanohm](https://github.com/carlosesthefanohm)
