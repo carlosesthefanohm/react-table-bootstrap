@@ -180,6 +180,8 @@ const ReactDataTableBootstrap = ({
               h.sort = h.sort !== false
               h.colSpan = h.colSpan || 1
               h.rowSpan = h.rowSpan || 1
+              h.className = h.className || ''
+              h.style = h.style || ''
               let d = {}
               if (h.sort) {
                 d.className = 'sort icon ' + (store.columnOrder === h.name ? (store.orderDirection === 'desc' ? ' active-desc' : ' active-asc') : '')
@@ -192,7 +194,13 @@ const ReactDataTableBootstrap = ({
               if (h.rowSpan > 1) {
                 d.rowSpan = h.rowSpan
               }
-              return (<th {...d} width={h.width ? h.width : ''}>{h.text}</th>)
+              if (h.className) {
+                d.className = h.className
+              }
+              if (h.style) {
+                d.style = h.style
+              }
+              return (<th {...d} className={h.className}>{h.text}</th>)
             }))}
           </tr>
           {j + 1 === head.length && store.filterColumns.length ? <tr>

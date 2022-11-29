@@ -1369,6 +1369,8 @@ var ReactDataTableBootstrap = function ReactDataTableBootstrap(_ref) {
         h.sort = h.sort !== false;
         h.colSpan = h.colSpan || 1;
         h.rowSpan = h.rowSpan || 1;
+        h.className = h.className || '';
+        h.style = h.style || '';
         var d = {};
 
         if (h.sort) {
@@ -1385,8 +1387,16 @@ var ReactDataTableBootstrap = function ReactDataTableBootstrap(_ref) {
           d.rowSpan = h.rowSpan;
         }
 
+        if (h.className) {
+          d.className = h.className;
+        }
+
+        if (h.style) {
+          d.style = h.style;
+        }
+
         return /*#__PURE__*/React.createElement("th", _extends({}, d, {
-          width: h.width ? h.width : ''
+          className: h.className
         }), h.text);
       }))), j + 1 === head.length && store.filterColumns.length ? /*#__PURE__*/React.createElement("tr", null, React.Children.toArray(tr.map(function (h) {
         if (store.filterColumns.some(function (f) {
