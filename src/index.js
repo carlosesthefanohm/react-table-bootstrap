@@ -195,7 +195,7 @@ const ReactDataTableBootstrap = ({
                 d.rowSpan = h.rowSpan
               }
               if (h.className) {
-                d.className = h.className
+                d.className += (' ' + h.className)
               }
               if (h.style) {
                 d.style = h.style

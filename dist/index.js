@@ -1391,7 +1391,7 @@ var ReactDataTableBootstrap = function ReactDataTableBootstrap(_ref) {
         }
 
         if (h.className) {
-          d.className = h.className;
+          d.className += ' ' + h.className;
         }
 
         if (h.style) {
